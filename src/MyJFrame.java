@@ -67,10 +67,11 @@ public class MyJFrame extends JFrame {
                 if(e.isMetaDown()) {
                     //System.out.println("ПКМ");
                 } else {
-                    Point cur = e.getPoint();
-                    if (cur != points.get(points.size() - 1).get(points.get(points.size() - 1).size() - 1)) {
+                    Vector curPoint = new Vector(e.getPoint());
+                    Vector lastPoint = new Vector(points.get(points.size() - 1).get(points.get(points.size() - 1).size() - 1));
+                    if (curPoint.distTo(lastPoint) > 0.1) {
                         ArrayList<Point> last = points.get(points.size() - 1);
-                        last.add(cur);
+                        last.add(curPoint.toPoint());
                         points.set(points.size() - 1, last);
                     }
                 }
@@ -118,9 +119,18 @@ public class MyJFrame extends JFrame {
             for (int j = 0; j < points.get(i).size() - 1; ++j) {
                 Vector l1 = new Vector(points.get(i).get(j));
                 Vector l2 = new Vector(points.get(i).get(j + 1));
-                if ((l2.getSubtracted(l1)).crossProduct(p2.getSubtracted(l1)) * l2.getSubtracted(l1).crossProduct(p1.getSubtracted(l1)) >= -l2.getEps())
+                if ((l2.getSubtracted(l1)).crossProduct(p2.getSubtracted(l1)) * l2.getSubtracted(l1).crossProduct(p1.getSubtracted(l1)) >= 0)
                     continue;
-                if ((p2.getSubtracted(p1)).crossProduct(l2.getSubtracted(p1)) * p2.getSubtracted(p1).crossProduct(l1.getSubtracted(p1)) >= -p2.getEps())
+                if ((p2.getSubtracted(p1)).crossProduct(l2.getSubtracted(p1)) * p2.getSubtracted(p1).crossProduct(l1.getSubtracted(p1)) >= 0)
+                    continue;
+                ans.add(new Pair<Integer, Integer>(i, j));
+            }
+            for (int j = 0; j < points.get(i).size() - 2; ++j) {
+                Vector l1 = new Vector(points.get(i).get(j));
+                Vector l2 = new Vector(points.get(i).get(j + 2));
+                if ((l2.getSubtracted(l1)).crossProduct(p2.getSubtracted(l1)) * l2.getSubtracted(l1).crossProduct(p1.getSubtracted(l1)) >= 0)
+                    continue;
+                if ((p2.getSubtracted(p1)).crossProduct(l2.getSubtracted(p1)) * p2.getSubtracted(p1).crossProduct(l1.getSubtracted(p1)) >= 0)
                     continue;
                 ans.add(new Pair<Integer, Integer>(i, j));
             }
@@ -152,10 +162,6 @@ public class MyJFrame extends JFrame {
         if (ballCreated) {
             ArrayList<Pair<Integer, Integer>> intersections = predictIntersections();
             if (!intersections.isEmpty() && !ball.ExpectingColision()) {
-                /*
-                Graphics g = getGraphics();
-                g.drawRoundRect((int) points.get(intersectionIndex).getX(), (int) points.get(intersectionIndex).getY(), 10, 10, 5, 5);
-                */
                 Vector intersection = predictableIntersectionPosition(
                         intersections.get(0).getKey(),
                         intersections.get(0).getValue()

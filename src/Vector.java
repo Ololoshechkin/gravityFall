@@ -109,4 +109,8 @@ public class Vector {
         }
     }
 
+    public double distTo(Vector b) {
+        return getSubtracted(b).len();
+    }
+
 }
