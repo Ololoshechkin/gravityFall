@@ -10,6 +10,7 @@ public class Ball {
     private Vector acceleration;
     private boolean isExpectingColision = false;
     private Vector expectedColisionPosition, nextSpeed;
+    private double motion = 0.001;
 
     Ball(Point pos) {
         position = new Vector(pos);
@@ -27,15 +28,16 @@ public class Ball {
             isExpectingColision = false;
             position.PrintCoordinates();
             speed.PrintCoordinates();
+            System.out.println();
             return;
         }
-        position.add(speed.getMultyplied(0.05));
-        speed.add(acceleration.getMultyplied(0.05));
+        position.add(speed.getMultyplied(motion));
+        speed.add(acceleration.getMultyplied(motion));
     }
 
     public Vector nextMovement() {
         if (isExpectingColision) return expectedColisionPosition;
-        return position.getAdded(speed.getMultyplied(0.05));
+        return position.getAdded(speed.getMultyplied(motion));
     }
 
     public void setAcceleration(Vector a) {
@@ -52,8 +54,6 @@ public class Ball {
 
     public boolean ExpectingColision() {return isExpectingColision;}
 
-    public Vector getSpeed() {
-        return speed;
-    }
+    public Vector getSpeed() {return speed;}
 
 }

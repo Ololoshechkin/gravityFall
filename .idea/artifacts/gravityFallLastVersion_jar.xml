@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="gravityFallLastVersion:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/gravityFallLastVersion_jar</output-path>
+    <root id="archive" name="gravityFall.jar">
+      <element id="module-output" name="gravityFall" />
+    </root>
+  </artifact>
+</component>
